@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+//Ulike varigheter i millisekunder
+var L = 2000; //Heltone varighet
+var V = 0.5*L; //Halvtone varighet
+var v = 0.25*L; //Firedelstone varighet
+
+
+//Frekvens til grunntone
+var C = 400;
+var Ciss = C * Math.pow(2,1/12);
+var D = C * Math.pow(2,2/12);
+var Diss = C * Math.pow(2,3/12); //Ess
+var Ess = Diss;
+var E = C * Math.pow(2,4/12);
+var F = C * Math.pow(2,5/12);
+var Fiss = C * Math.pow(2,6/12);
+var G = C * Math.pow(2,7/12);
+var Giss = C * Math.pow(2,8/12);
+var A = C * Math.pow(2,9/12);
+var B = C * Math.pow(2,10/12);
+var H = C * Math.pow(2,11/12);
+var C2 = C * Math.pow(2,12/12);
+var Ciss2 = C2 * Math.pow(2,1/12);
+var D2 = C2 * Math.pow(2,2/12);
+var Diss2 = C2 * Math.pow(2,3/12); //Ess
+var Ess2 = Diss2;
+var E2 = C2 * Math.pow(2,4/12);
+var F2 = C2 * Math.pow(2,5/12);
+var Fiss2 = C2 * Math.pow(2,6/12);
+var G2 = C2 * Math.pow(2,7/12);
+var Giss2 = C2 * Math.pow(2,8/12);
+var A2 = C2 * Math.pow(2,9/12);
+var B2 = C2 * Math.pow(2,10/12);
+var H2 = C2 * Math.pow(2,11/12);
+
+var notes =    [A,H,C2,D2,E2,C2,E2,Ess2,H,Ess2,D2,B,D2];
+var duration = [v,v,v ,v ,v ,v ,V ,v   ,v,V   ,v ,v,V];
+
+
+//////////////////
+///MUSIKK OVER HER
+//////////////////
+
+var currentNote = 0;
+var numberOfNotes = notes.length;
+var pauseTime = 1;
+
+var contextClass = (window.AudioContext ||
+  window.webkitAudioContext ||
+  window.mozAudioContext ||
+  window.oAudioContext ||
+  window.msAudioContext);
+
+if (contextClass) {
+  var context = new contextClass();
+	var gainValue = 0.1;
+	var gainNode = context.createGain ? context.createGain() : context.createGainNode();
+	var oscillator;
+} else {
+	alert("Lyd ikke støttet!");
+}
+
+
+
+var bStopped = true;
+		
+function pauseNote()
+{
+	if(bStopped)
+	{
+		return;
+	}
+	oscillator.frequency.value = 0;
+    setTimeout(playNextNote, pauseTime);
+}
+		
+function playNextNote()
+{ 
+	if(bStopped)
+	{
+		return;
+	}
+	oscillator.frequency.value = notes[currentNote];
+
+    setTimeout(pauseNote, duration[currentNote]);
+
+	currentNote = currentNote + 1;
+	if(currentNote == numberOfNotes)
+	{
+		currentNote = 0;
+	}
+}			
+
+function playSong()
+{
+	playNextNote();
+}
+
+function start()
+{
+	currentNote = 0;
+	bStopped = false;
+		if (typeof oscillator != 'undefined') oscillator.disconnect();
+
+		oscillator = context.createOscillator();
+		oscillator.connect(gainNode);
+		gainNode.connect(context.destination);
+		oscillator.frequency.value = 0;
+		oscillator.start ? oscillator.start(0) : oscillator.noteOn(0)
+
+		playSong();
+		
+};
+
+function stop() {
+	bStopped = true;
+	oscillator.disconnect();
+}
+</script>
+</head>
+<body>
+
+
+<h1>Lyddemonstrasjon</h1>
+
+
+<button type="button" onclick="start()">Play</button>
+<button type="button" onclick="stop()">Stop</button>
+
+
+</body>
+</html>
