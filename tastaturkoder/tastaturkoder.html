@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Tastaturkoder</title>
+</head>
 
+<body>
+<h1>Tastaturkoder</h1>
+Du trykket på: <b id="tast"></b>
+</body>
+
+<script>
+
+function tastTrykket(tast) 
+{
+  var tastaturFelt = document.getElementById("tast");
+  tastaturFelt.innerHTML = tast;
+	
+}
+
+document.onkeydown = function(event) 
+{
+    var tast;
+    //Internet explorer gjør det slik
+    if(window.event) 
+    {
+        tast = window.event.keyCode;
+    }
+    //Firefox gjør det slik
+    else 
+    {
+        tast = event.which;
+    } 
+    tastTrykket(tast);
+}
+</script>
+</html>
