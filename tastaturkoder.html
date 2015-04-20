@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Tastaturkoder</title>
+<script>
+
+function tastTrykket(tast) {
+  var tastaturFelt = document.getElementById("tastaturDiv");
+  tastaturFelt.innerHTML = tast;
+	
+}
+
+document.onkeydown = function(event) {
+    var tast;
+    //IE uses this
+    if(window.event) {
+        test = window.event.keyCode;
+    }
+    //FF uses this
+    else {
+        tast = event.which;
+    } 
+    tastTrykket(tast);
+}
+</script>
+</head>
+
+<body>
+
+<h1>Tastaturkoder</h1>
+Du trykket på: <div id="tastaturDiv"></div>
+</body>
+</html>
