@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Piano</title>
+</head>
+
+<body>
+<h1>Piano</h1>
+Frekvens: <b id="info"></b>
+<ul>
+<li>a=noten C</li>
+<li>s=noten Ciss</li>
+<li>..=noten D</li>
+<li>..=noten Diss</li>
+<li>..=noten E</li>
+<li>..=noten F</li>
+<li>..=noten Fiss</li>
+...
+</ul>
+</body>
+<script>
+//Lim inn verdiene til C, Ciss, D, etc. her:
+//var C = ...;
+//...
+var C = 220;
+
+
+function tastTrykket(tast) 
+{
+  var frekvens = 0;
+
+  if(tast == 65) //a - C
+  {
+  	 frekvens = C;
+  }
+  else if(tast == 83) //s - D
+  {
+  	 frekvens = D;
+  }
+  
+  oscillator.frequency.value = frekvens;
+
+  var infoFelt = document.getElementById("info");
+  infoFelt.innerHTML = frekvens;
+	
+}
+
+document.onkeydown = function(event) 
+{
+    var tast;
+    //Internet explorer gjør det slik
+    if(window.event) 
+    {
+        tast = window.event.keyCode;
+    }
+    //Firefox gjør det slik
+    else 
+    {
+        tast = event.which;
+    } 
+    tastTrykket(tast);
+}
+
+document.onkeyup = function(event) 
+{
+  oscillator.frequency.value = 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//LYD blir konfigurert nedenfor
+/////////////////////////////////////////////////////////////////////////////////////////
+//Lyd på web er ikke helt standardisert enda, derfor må vi prøve å lage
+//en lydcontext på mange foskjellige måter. Avhengig av hvilken
+//nettleser vi bruker vil en av de mest sannsynlig virke.
+//Les om hvilke nettlesere som støttes her: http://caniuse.com/#feat=audio-api
+
+var gainValue = 1.0;
+var gainNode = null; //Denne blir definert senere.
+var oscillator = null; //Denne blir også definert senere.
+
+var contextClass = (window.AudioContext ||
+  window.webkitAudioContext ||
+  window.mozAudioContext ||
+  window.oAudioContext ||
+  window.msAudioContext);
+
+//Hvis lyd støttes oppretter vi en lydkontekst og en forsterker (gain)
+if (contextClass) 
+{
+  var context = new contextClass();
+  
+  //Forsterkeren kan lages på to måter avhengig av nettleser.
+  //Dersom createGain funksjonen finnes bruker vi den. Hvis ikke bruker vi createGainNode
+  if(context.createGain)
+  {
+  	gainNode = context.createGain();
+  }
+  else
+  {
+ 	gainNode = context.createGainNode();
+  }
+  
+  //Lag en oscillator
+  oscillator = context.createOscillator();
+
+  //Koble til forsterkeren
+  oscillator.connect(gainNode);
+  gainNode.connect(context.destination);
+
+  //I begynnelsen var det ingen lyd (frekvens 0)
+  oscillator.frequency.value = 0;
+
+  //To ulike måter å starte oscillatoren på avhengig av nettleser.
+  //Dersom start funksjonen finnes bruker vi den, hvis ikke bruker vi noteOn
+  //Verdien 0 betyr at oscillatoren skal starte med en gang (altså etter 0 ms)
+  if(oscillator.start)
+  {
+    oscillator.start(0);
+  }
+  else
+  {
+      oscillator.noteOn(0);
+  }
+} 
+else 
+{
+	alert("Lyd ikke støttet!");
+}
+</script>
+</html>
