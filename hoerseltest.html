@@ -17,7 +17,6 @@ Frekvens: <b id="info"></b>
 </body>
 <script>
 var frekvens = 0
-
 function tastTrykket(tast) 
 {
   if(tast == 65)
@@ -38,12 +37,10 @@ function tastTrykket(tast)
   }
   
   oscillator.frequency.value = frekvens;
-
   var infoFelt = document.getElementById("info");
   infoFelt.innerHTML = frekvens;
 	
 }
-
 document.onkeydown = function(event) 
 {
     var tast;
@@ -59,7 +56,6 @@ document.onkeydown = function(event)
     } 
     tastTrykket(tast);
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //LYD blir konfigurert nedenfor
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -67,17 +63,14 @@ document.onkeydown = function(event)
 //en lydcontext på mange foskjellige måter. Avhengig av hvilken
 //nettleser vi bruker vil en av de mest sannsynlig virke.
 //Les om hvilke nettlesere som støttes her: http://caniuse.com/#feat=audio-api
-
 var gainValue = 1.0;
 var gainNode = null; //Denne blir definert senere.
 var oscillator = null; //Denne blir også definert senere.
-
 var contextClass = (window.AudioContext ||
   window.webkitAudioContext ||
   window.mozAudioContext ||
   window.oAudioContext ||
   window.msAudioContext);
-
 //Hvis lyd støttes oppretter vi en lydkontekst og en forsterker (gain)
 if (contextClass) 
 {
@@ -96,14 +89,11 @@ if (contextClass)
   
   //Lag en oscillator
   oscillator = context.createOscillator();
-
   //Koble til forsterkeren
   oscillator.connect(gainNode);
   gainNode.connect(context.destination);
-
   //I begynnelsen var det ingen lyd (frekvens 0)
   oscillator.frequency.value = 0;
-
   //To ulike måter å starte oscillatoren på avhengig av nettleser.
   //Dersom start funksjonen finnes bruker vi den, hvis ikke bruker vi noteOn
   //Verdien 0 betyr at oscillatoren skal starte med en gang (altså etter 0 ms)
