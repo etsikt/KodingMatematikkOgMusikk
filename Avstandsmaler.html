@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+
+<title>Webcam</title>
+<meta charset="utf-8" />
+	<link rel="stylesheet" href="Avstandsmaler.css">
+	<script src="kmmf_sound.js"></script>
+</head>
+<body >
+	<table border="1">
+	<tr><th></th><th>R</th><th>G</th><th>B</th><th>Focal length</th><th>Distance to target:</th></tr>
+	<tr><td><b>Min</b></td>
+		<td>
+		      <input type="range" min="0" max="255" value="55" class="slider red" id="minred">
+            <span id="minredValue"></span>
+	</td>
+
+	<td>
+      <input type="range" min="0" max="255" value="111" class="slider green" id="mingreen">
+      <span id="mingreenValue"></span>
+	</td>
+
+	<td>
+      <input type="range" min="0" max="255" value="53" class="slider blue" id="minblue">
+      <span id="minblueValue"></span>
+
+	</td>
+	<td>
+		<input type="range" min="0" max="1000" value="345" id="focalLength">
+		<span id="focalLengthValue"></span>
+	</td>
+	<td>
+	   <div id="distanceMeasured"</div>
+	</td>
+	</tr>
+
+	<tr>
+	<td><b>Max</b></td>
+		<td>
+      <input type="range" min="0" max="255" value="67" class="slider red" id="maxred">
+	      <span id="maxredValue"></span>
+	</td>
+
+	<td>
+      <input type="range" min="0" max="255" value="121" class="slider green" id="maxgreen">
+      <span id="maxgreenValue"></span>
+	</td>
+
+	<td>
+      <input type="range" min="0" max="255" value="63" class="slider blue" id="maxblue">
+      <span id="maxblueValue"></span>
+	</td>
+	<td/><td/>
+	</tr>
+	</table>
+
+
+    <div>
+      <canvas id="canvas"></canvas>
+	</div>
+	<script src="Avstandsmaler.js"></script>
+
+  </body>
+  </html>
